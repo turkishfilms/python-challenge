@@ -42,7 +42,7 @@ Total: ${totalPL}
 Average Change: ${curAvg}
 Greatest Increase in Profits: {maxIncDate} (${maxIncrease})
 Greatest Decrease in Profits: {maxDecDate} (${maxDecrease})
-"""
+""" 
             print(analysis)
             newText.write(analysis)
 
