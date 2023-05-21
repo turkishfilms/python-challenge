@@ -3,71 +3,71 @@ import csv
 
 
 def main():
-    totalVotes = 0
+    total_votes = 0
     candidates = []
-    uniqueCand = []
+    unique_candidates = []
     winner = ""
-    csvPath = r"G:\CODE\Data Analytics Bootcamp\Data_Analytics\Class_Folder\M3_Python\chllenge\python-challenge\PyPoll\Resources\election_data.csv"
-    with open(csvPath) as eCSV:
-        electionCSV = csv.reader(eCSV, delimiter=',')
-        curCandidate = ""
+    csv_path = r"G:\CODE\Data Analytics Bootcamp\Data_Analytics\Class_Folder\M3_Python\chllenge\python-challenge\PyPoll\Resources\election_data.csv"
+    with open(csv_path) as e_CSV:
+        election_CSV = csv.reader(e_CSV, delimiter=',')
+        cur_candidate = ""
         # bID,COunty,Cand
-        for row in electionCSV:
+        for row in election_CSV:
             if(row[0] == "Ballot ID"):
                 continue
-            totalVotes += 1
-            if(curCandidate == row[2]):
+            total_votes += 1
+            if(cur_candidate == row[2]):
                 candidates[-1]["votes"] += 1
             else:
                 candidates.append({"name": row[2], "votes":1})
-                curCandidate = row[2]    
+                cur_candidate = row[2]    
         # i mistakenly thought this data was ordered by candidate, it is not. the next step gets unique candidates 
-        uniqueCand = [candidates[0]]
+        unique_candidates = [candidates[0]]
         candidates.pop(0)
-        for cand in candidates:
-            for uC in uniqueCand:
-                if(cand["name"] == uC["name"]):
-                    uC["votes"] += cand["votes"]
+        for candidate in candidates:
+            for unique_candidate in unique_candidates:
+                if(candidate["name"] == unique_candidate["name"]):
+                    unique_candidate["votes"] += candidate["votes"]
                     continue
                 else:
-                    matchh = 0
-                    for uC2 in uniqueCand:
-                        if(uC2["name"] == cand["name"]):
-                            matchh = 1
-                    if(matchh == 0):
-                        uniqueCand.append(cand)
+                    match = 0
+                    for unique_candidate_2 in unique_candidates:
+                        if(unique_candidate_2["name"] == candidate["name"]):
+                            match = 1
+                    if(match == 0):
+                        unique_candidates.append(candidate)
                         continue
         # lord forgive  me for my sins
         # calcPercents
-        maxPercent = 0
-        for u in uniqueCand:
-            u["percent"] = u["votes"] / totalVotes * 100
-            if(u["percent"] > maxPercent): 
-                maxPercent = u["percent"] 
+        max_percent = 0
+        for unique_candidate in unique_candidates:
+            unique_candidate["percent"] = unique_candidate["votes"] / total_votes * 100
+            if(unique_candidate["percent"] > max_percent): 
+                max_percent = unique_candidate["percent"] 
                     # winner
-                winner = u["name"]
+                winner = unique_candidate["name"]
         
         
         
     
         
-    analysisPath =r"G:\CODE\Data Analytics Bootcamp\Data_Analytics\Class_Folder\M3_Python\chllenge\python-challenge\PyPoll\analysis\finalAnalysis.txt"
-    with open(analysisPath, "w") as newText:
-        candstr = ""
-        for u in uniqueCand:
-            candstr += f'{u["name"]}: {round(u["percent"],2)}% {u["votes"]} \n \t' 
-        electionAnalysis = f"""
+    analysis_path =r"G:\CODE\Data Analytics Bootcamp\Data_Analytics\Class_Folder\M3_Python\chllenge\python-challenge\PyPoll\analysis\finalAnalysis.txt"
+    with open(analysis_path, "w") as new_text:
+        candidates_str = ""
+        for unique_candidate in unique_candidates:
+            candidates_str += f'{unique_candidate["name"]}: {round(unique_candidate["percent"],2)}% {unique_candidate["votes"]} \n \t' 
+        election_analysis = f"""
   Election Results
   -------------------------
-  Total Votes: {totalVotes}
+  Total Votes: {total_votes}
   -------------------------
   Candidates:
-  {candstr}
+  {candidates_str}
   -------------------------
   Winner: {winner}
   -------------------------
   """
-        print(electionAnalysis)
-        newText.write(electionAnalysis)
+        print(election_analysis)
+        new_text.write(election_analysis)
 
 main() 
